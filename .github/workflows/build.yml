@@ -12,10 +12,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install live-build
+      - name: Install build dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y live-build
+          sudo apt-get install -y debootstrap cpio wget
+
+      - name: Install modern live-build
+        run: |
+          wget -q https://deb.debian.org/debian/pool/main/l/live-build/live-build_20250505+deb13u1_all.deb
+          sudo apt-get install -y ./live-build_20250505+deb13u1_all.deb
+          lb --version
 
       - name: Build ISO
         run: sudo bash build/build.sh
