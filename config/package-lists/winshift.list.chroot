@@ -1,0 +1,11 @@
+# Core WinShift packages
+linux-generic
+sudo
+network-manager
+curl
+wget
+git
+nano
+vim
+htop
+fastfetch
