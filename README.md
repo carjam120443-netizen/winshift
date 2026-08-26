@@ -1,1 +1,1 @@
-# winbunutu
+# WinShift is my personal, open-source Ubuntu-based Linux distribution. It is not Windows, but is designed to provide a familiar experience for users migrating from Windows while offering its own features, customization, and identity.
