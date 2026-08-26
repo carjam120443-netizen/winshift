@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # WinShift ISO builder
-# Requires a Debian/Ubuntu build environment with live-build installed.
+# Ubuntu Noble + live-build
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
@@ -13,17 +13,17 @@ if ! command -v lb >/dev/null 2>&1; then
     exit 1
 fi
 
+# Ubuntu's Noble live-build package is an old 3.0~a57 release and its
+# Ubuntu mode defaults to the obsolete ubuntu-oneiric Syslinux theme.
+# Force a neutral theme so the build does not request removed packages.
 lb clean --purge
 
-# Ubuntu's Noble live-build package still defaults to the obsolete
-# ubuntu-oneiric Syslinux theme. Use the supported --bootloader option
-# with an ISO image; this live-build version will select the supported
-# bootloader path for the ISO instead of the invalid --bootloaders option.
 lb config \
     --distribution noble \
     --archive-areas "main restricted universe multiverse" \
-    --binary-images iso \
-    --bootloader grub \
+    --binary-images iso-hybrid \
+    --bootloader syslinux \
+    --syslinux-theme "" \
     --debian-installer false
 
 lb build
