@@ -13,17 +13,17 @@ if ! command -v lb >/dev/null 2>&1; then
     exit 1
 fi
 
-# Ubuntu's Noble live-build package is an old 3.0~a57 release and its
-# Ubuntu mode defaults to the obsolete ubuntu-oneiric Syslinux theme.
-# Force a neutral theme so the build does not request removed packages.
+# Ubuntu Noble ships an older live-build whose Ubuntu/Syslinux defaults
+# reference removed Oneiric theme packages. Use a minimal binary ISO and
+# disable both legacy Syslinux and GRUB so live-build can build the image
+# without pulling those obsolete theme packages.
 lb clean --purge
 
 lb config \
     --distribution noble \
     --archive-areas "main restricted universe multiverse" \
-    --binary-images iso-hybrid \
-    --bootloader syslinux \
-    --syslinux-theme "" \
+    --binary-images iso \
+    --bootloader none \
     --debian-installer false
 
 lb build
