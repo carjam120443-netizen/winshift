@@ -14,19 +14,16 @@ fi
 
 lb clean --purge
 
-# Explicitly point every live-build stage at Ubuntu. The newer Debian
-# live-build package otherwise assumes the distribution is Debian and tries
-# to fetch deb.debian.org/debian/dists/noble/Release.
+# Modern live-build does not provide the old *-updates options. The base
+# Ubuntu mirror plus its normal suite handling is enough for Noble.
 lb config \
     --distribution noble \
     --archive-areas "main restricted universe multiverse" \
     --mirror-bootstrap http://archive.ubuntu.com/ubuntu \
     --mirror-chroot http://archive.ubuntu.com/ubuntu \
     --mirror-chroot-security http://security.ubuntu.com/ubuntu \
-    --mirror-chroot-updates http://archive.ubuntu.com/ubuntu \
     --mirror-binary http://archive.ubuntu.com/ubuntu \
     --mirror-binary-security http://security.ubuntu.com/ubuntu \
-    --mirror-binary-updates http://archive.ubuntu.com/ubuntu \
     --binary-images iso-hybrid \
     --debian-installer none
 
