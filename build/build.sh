@@ -14,5 +14,15 @@ if ! command -v lb >/dev/null 2>&1; then
 fi
 
 lb clean --purge
-lb config --distribution noble --archive-areas "main restricted universe multiverse"
+
+# Build a bootable Ubuntu Noble ISO. Explicitly select GRUB and disable
+# legacy Syslinux support so live-build does not request obsolete Ubuntu
+# Oneiric Syslinux theme packages.
+lb config \
+    --distribution noble \
+    --archive-areas "main restricted universe multiverse" \
+    --binary-images iso-hybrid \
+    --bootloaders grub-efi \
+    --debian-installer false
+
 lb build
