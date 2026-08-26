@@ -14,22 +14,23 @@ fi
 
 lb clean --purge
 
-# Modern live-build does not provide the old *-updates options. The base
-# Ubuntu mirror plus its normal suite handling is enough for Noble.
+# Ubuntu Noble mirrors. Only use mirror options supported by the Debian
+# live-build version installed by the GitHub Actions workflow.
 lb config \
     --distribution noble \
+    --architectures amd64 \
     --archive-areas "main restricted universe multiverse" \
     --mirror-bootstrap http://archive.ubuntu.com/ubuntu \
     --mirror-chroot http://archive.ubuntu.com/ubuntu \
     --mirror-chroot-security http://security.ubuntu.com/ubuntu \
     --mirror-binary http://archive.ubuntu.com/ubuntu \
     --mirror-binary-security http://security.ubuntu.com/ubuntu \
+    --linux-packages "linux-image-generic" \
     --binary-images iso-hybrid \
     --debian-installer none
 
 lb build
 
-# live-build normally creates binary.iso. Rename it to a useful WinShift name.
 ISO="$(find . -maxdepth 1 -type f -name '*.iso' -print -quit)"
 if [[ -z "${ISO}" ]]; then
     echo "Error: live-build did not produce an ISO."
