@@ -15,14 +15,15 @@ fi
 
 lb clean --purge
 
-# Build a bootable Ubuntu Noble ISO. Explicitly select GRUB and disable
-# legacy Syslinux support so live-build does not request obsolete Ubuntu
-# Oneiric Syslinux theme packages.
+# Ubuntu's Noble live-build package still defaults to the obsolete
+# ubuntu-oneiric Syslinux theme. Use the supported --bootloader option
+# with an ISO image; this live-build version will select the supported
+# bootloader path for the ISO instead of the invalid --bootloaders option.
 lb config \
     --distribution noble \
     --archive-areas "main restricted universe multiverse" \
-    --binary-images iso-hybrid \
-    --bootloaders grub-efi \
+    --binary-images iso \
+    --bootloader grub \
     --debian-installer false
 
 lb build
