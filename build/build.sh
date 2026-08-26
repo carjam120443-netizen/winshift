@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # WinShift ISO builder
-# Ubuntu Noble + live-build
+# Ubuntu Noble + modern live-build
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
@@ -14,14 +14,21 @@ fi
 
 lb clean --purge
 
-# Build a bootable Ubuntu Noble hybrid ISO using live-build's supported
-# default bootloader path. The earlier --bootloader none setting was only
-# useful as a diagnostic because it cannot produce a bootable ISO.
+# Explicitly point every live-build stage at Ubuntu. The newer Debian
+# live-build package otherwise assumes the distribution is Debian and tries
+# to fetch deb.debian.org/debian/dists/noble/Release.
 lb config \
     --distribution noble \
     --archive-areas "main restricted universe multiverse" \
+    --mirror-bootstrap http://archive.ubuntu.com/ubuntu \
+    --mirror-chroot http://archive.ubuntu.com/ubuntu \
+    --mirror-chroot-security http://security.ubuntu.com/ubuntu \
+    --mirror-chroot-updates http://archive.ubuntu.com/ubuntu \
+    --mirror-binary http://archive.ubuntu.com/ubuntu \
+    --mirror-binary-security http://security.ubuntu.com/ubuntu \
+    --mirror-binary-updates http://archive.ubuntu.com/ubuntu \
     --binary-images iso-hybrid \
-    --debian-installer false
+    --debian-installer none
 
 lb build
 
